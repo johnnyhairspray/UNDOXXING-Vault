@@ -33,20 +33,21 @@ brand: [Manufacturer name]
 productLine: [Product family name, e.g. "iPhone 17"]
 models:
   - name: [Model tier name]
-    upc: []  # Array of UPCs for all storage/color variants of this tier
   - name: [Model tier name]
-    upc: []
+    upc:               # Only add upc field when UPCs are known — omit when empty
+      - "012345678901"
+      - "012345678902"
 released: YYYY-MM-DD
 status: [Current / Discontinued]
-policyRetrieved: YYYY-MM-DD      # Date we ran the analysis
-policyLastUpdated: YYYY-MM-DD    # Date manufacturer last updated their policy
+policyRetrieved: YYYY-MM-DD
+policyLastUpdated: YYYY-MM-DD
 policyUrl: https://...
-ftcActions: [none / URL to FTC action]
+ftcActions: [none / description + URL]
 severityTier: [1-5 or null if unscored]
 severityPoints: [raw points or null]
-scopeScore: [0-100 or null]      # % of possible data types collected
-intensityScore: [0-100 or null]  # % of how badly collected data is mishandled
-udxScore: [0-100 or null]        # geometric mean of scope × intensity
+scopeScore: [0-100 or null]
+intensityScore: [0-100 or null]
+udxScore: [0-100 or null]
 scoredDate: YYYY-MM-DD
 scoredBy: [Claude / Human / Claude+Human]
 aliases:
@@ -58,6 +59,8 @@ tags:
   - [relevant surveillance vectors]
 ---
 ```
+
+**Important:** Do NOT use `upc: []` for empty arrays — this breaks Obsidian's frontmatter parser. Omit the `upc` field entirely when no UPCs are populated yet.
 
 ---
 
@@ -97,8 +100,7 @@ iPhone 17 Pro.md
   → iPhone 17 Pro 128GB Black        UPC: 123456789
   → iPhone 17 Pro 128GB White        UPC: 123456790
   → iPhone 17 Pro 256GB Black        UPC: 123456791
-  → iPhone 17 Pro 256GB White        UPC: 123456792
-  → ...all map to same score
+  → ...all map to same UDX score
 ```
 
 Barcode scan → UPC lookup → canonical note → score returned.
