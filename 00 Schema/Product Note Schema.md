@@ -48,6 +48,8 @@ severityPoints: [raw points or null]
 scopeScore: [0-100 or null]
 intensityScore: [0-100 or null]
 udxScore: [0-100 or null]
+hardenedUdxScore: [0-100 or null]
+hardenedConfig: [plain language description of what settings were disabled to reach hardenedUdxScore, or null]
 scoredDate: YYYY-MM-DD
 scoredBy: [Claude / Human / Claude+Human]
 aliases:
@@ -88,6 +90,10 @@ tags:
 `√(Scope × Intensity)`
 
 Only data collected BY DEFAULT is scored. Opt-in features are documented separately and excluded from scoring.
+
+**Hardened UDX Score** — Score after applying the recommended privacy settings documented in the product note's Privacy Settings Guide. Represents the best achievable score without losing core functionality. Omit opt-in features and any data types fully eliminated by the hardened config from both numerator and denominator.
+
+**Hardened Config** — Plain language description of exactly which settings were changed to reach the hardened score. Should match the HIGH PRIORITY items in the product note's Privacy Settings Guide.
 
 ---
 
