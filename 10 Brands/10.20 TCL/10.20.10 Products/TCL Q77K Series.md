@@ -18,6 +18,8 @@ severityPoints: 100
 scopeScore: 50
 intensityScore: 55
 udxScore: 52
+hardenedUdxScore: 39
+hardenedConfig: "Disabled ACR via Settings → Privacy → User Agreements → opt out of User Experience Improvement Program; deleted Advertising ID via Settings → Privacy → Ads → Delete Advertising ID; disabled Google Assistant via Settings → Device Preferences → Google Assistant → off. Eliminates ACR (HIGH/30) and voice data (MEDIUM/20) entirely from scoring."
 scoredDate: 2026-05-02
 scoredBy: Claude
 aliases:
@@ -37,7 +39,7 @@ tags:
   - active-lawsuit
 ---
 
-# TCL 65Q77K — UDX Score: 52 (Moderate)
+# TCL 65Q77K — UDX Score: 52 (Moderate) → Hardened: 39 (Low)
 
 **⚠️ ACTIVE LEGAL ACTION:** Texas AG filed suit December 15, 2025 against TCL for ACR surveillance and data brokering. Case active as of scoring date.
 
@@ -48,6 +50,8 @@ tags:
 ## Summary
 
 The TCL Q77K is a Google TV smart television that collects viewing data through Automated Content Recognition (ACR) technology by default, tracking what you watch approximately every 500 milliseconds — including content from cable boxes, gaming consoles, Blu-ray players, and any device connected via HDMI. This data is sold to data brokers and advertising networks. The TV runs two overlapping data collection layers: TCL's own and Google TV's. Both are active by default. The Chinese ownership of TCL adds a foreign adversary data access risk beyond typical smart TV concerns.
+
+**Disabling ACR and the advertising ID drops the score from Moderate (52) to Low (39).** These are the two changes with the most meaningful real-world privacy impact.
 
 ---
 
@@ -163,7 +167,7 @@ Policy evidence: "the IP address, MAC address, Device-ID, Terminal ID, serial nu
 
 **5. PII — Account Information** (MEDIUM = 20)
 
-What it collects: Name, email address, account credentials for Google account (required for Google TV functionality) and optional TCL account. Google TV requires account to use smart features.
+What it collects: Name, email address, account credentials for Google account (required for Google TV functionality) and optional TCL account.
 
 Policy evidence: "Personal and/or business contact information: your name, shipping, billing and/or business address, email address, phone number" — TCL Privacy Notice. Google TV requires Google account per Consumer Reports setup analysis.
 
@@ -180,11 +184,9 @@ Policy evidence: "Personal and/or business contact information: your name, shipp
 
 **6. IP Geolocation** (LOW = 10)
 
-What it collects: City-level location from IP address, approximate location for service delivery and targeted advertising.
+What it collects: City-level location from IP address.
 
-Policy evidence: "geolocation information provided by your device's GPS signal or communicated through a nearby Wi-Fi access points and cell towers" — also "Geolocation data, which may include physical location or movements" listed under CCPA disclosures with sharing to "internet service providers."
-
-Note: Scoring as IP geolocation (city-level, LOW=10) rather than precise GPS. No evidence Q77K enables GPS by default. Scored conservatively.
+Policy evidence: "Geolocation data, which may include physical location or movements" listed under CCPA disclosures with sharing to "internet service providers."
 
 - Storage: 30% (cloud)
 - Purpose: 15% (service delivery + targeted advertising)
@@ -199,108 +201,89 @@ Note: Scoring as IP geolocation (city-level, LOW=10) rather than precise GPS. No
 
 ## Score Summary
 
-| Data Type | Severity | Score | Handling% |
-|---|---|---|---|
-| ACR / Content Tracking | 30 | 18.56 | 82.5% |
-| Voice Commands | 20 | 5.25 | 52.5% |
-| Usage / Interaction | 10 | 4.50 | 60% |
-| Device Identifiers | 10 | 6.00 | 60% |
-| PII (Account) | 20 | 13.50 | 67.5% |
-| IP Geolocation | 10 | 6.75 | 67.5% |
-| **TOTALS** | **100** | **54.56** | |
+| Data Type | Severity | Score | Handling% | Hardened |
+|---|---|---|---|---|
+| ACR / Content Tracking | 30 | 18.56 | 82.5% | ❌ eliminated |
+| Voice Commands | 20 | 5.25 | 52.5% | ❌ eliminated |
+| Usage / Interaction | 10 | 4.50 | 60% | ✅ retained |
+| Device Identifiers | 10 | 6.00 | 60% | ✅ retained |
+| PII (Account) | 20 | 13.50 | 67.5% | ✅ retained |
+| IP Geolocation | 10 | 6.75 | 67.5% | ✅ retained |
+| **TOTALS** | **100** | **54.56** | | |
 
-**Scope Score:** min(100/200, 1) × 100 = **50**
-**Intensity Score:** min((54.56/100) × 100, 100) = **55**
-**UDX Score:** √(50 × 55) = √2750 = **52 — Moderate (Tier 3)**
+**Default Scores:**
+- Scope: 50 | Intensity: 55 | **UDX: 52 — Moderate (Tier 3)**
+
+**Hardened Scores** (ACR + voice disabled):
+- Remaining severity: 50 | Remaining score: 30.75
+- Scope: 25 | Intensity: 61.5 | **Hardened UDX: 39 — Low (Tier 2)**
 
 ---
 
 ## Key Privacy Concerns
 
-- **ACR data sold to data brokers** — confirmed by Texas AG lawsuit. Second-by-second monitoring of everything on your screen including external devices
-- **Chinese ownership** — data controller is Shenzhen TCL New Technology Co., Ltd. China's National Security Law can compel data disclosure to Chinese government
-- **Dual data collection layers** — both TCL's own policies AND Google TV's policies apply simultaneously; Google's collection is vast and has no opt-out if you want smart TV features
-- **Active litigation** — Texas AG filed suit December 2025 for deceptive ACR practices and DTPA violations
-- **HDMI surveillance** — ACR captures content from ALL sources including gaming consoles, Blu-ray, cable box — not just built-in apps
+- **ACR data sold to data brokers** — confirmed by Texas AG lawsuit
+- **Chinese ownership** — China's National Security Law can compel data disclosure
+- **Dual collection layers** — TCL + Google TV both active by default
+- **Active litigation** — Texas AG filed suit December 2025
+- **HDMI surveillance** — ACR captures content from ALL connected sources
 
 ---
 
-## Privacy Settings Guide — What to Disable and How
+## Privacy Settings Guide
 
-This section addresses the new UNDOXXING feature: what to disable, how to disable it, and what you lose.
-
-### 🔴 HIGH PRIORITY — Disable These
+### 🔴 HIGH PRIORITY
 
 **1. ACR / User Experience Improvement Program**
-- **How:** Settings → Privacy → User Agreements → opt out of User Experience Improvement Program; also Settings → Privacy → User Agreements → withdraw diagnostic consent
-- **What you lose:** Personalized content recommendations become less relevant. Ads are still shown but less targeted. TCL Channel content suggestions may be generic.
-- **Privacy gain:** Removes the most invasive data collection. Stops second-by-second viewing fingerprinting. Prevents data sale to brokers.
-- **Severity removed:** 30 (HIGH) — largest single privacy gain available
+- **How:** Settings → Privacy → User Agreements → opt out of User Experience Improvement Program
+- **What you lose:** Less relevant content recommendations. Ads still appear but untargeted.
+- **Privacy gain:** Eliminates ACR data collection and sale to brokers. Largest single gain. **Drops score by ~13 points.**
 
 **2. Advertising ID**
-- **How:** Settings → Privacy → Ads → Delete Advertising ID (Google TV path)
-- **What you lose:** Ads still appear across apps — they just aren't personalized to your viewing history. You may see less relevant recommendations.
-- **Privacy gain:** Breaks the cross-app advertising profile TCL and Google build about you. Eliminates the persistent identifier used for behavioral targeting.
-- **Note:** Deleting the ID creates a new blank one — do this periodically for ongoing protection.
+- **How:** Settings → Privacy → Ads → Delete Advertising ID
+- **What you lose:** Ads still shown, just not personalized.
+- **Privacy gain:** Breaks cross-app behavioral profile. Delete periodically for ongoing protection.
 
-### 🟡 MEDIUM PRIORITY — Consider These
+### 🟡 MEDIUM PRIORITY
 
-**3. Switch to Basic TV Mode (Nuclear Option)**
-- **How:** During initial setup only — choose "Basic TV" instead of "Google TV." Factory reset required to change after initial setup.
-- **What you lose:** Google Assistant, Google Play Store, built-in streaming app integration, Google account sync, personalized recommendations. TV becomes a dumb display that still plays streaming apps via HDMI.
-- **Privacy gain:** Eliminates Google's entire data collection layer entirely. Google's collection is vast — every YouTube video, every search, every app interaction. Switching to Basic TV removes Google from the equation.
-- **Severity removed:** Significant — eliminates Google TV layer entirely. TCL layer still applies.
-- **Practical note:** For most users, Basic TV mode makes the "smart" features largely unusable. Best for privacy-focused users who use a separate streaming device (Apple TV, Roku, Shield) anyway.
+**3. Basic TV Mode (Nuclear Option)**
+- **How:** During initial setup only — choose "Basic TV" instead of "Google TV." Requires factory reset to change later.
+- **What you lose:** Google Assistant, Play Store, streaming app integration, all Google smart features.
+- **Privacy gain:** Eliminates Google's entire data collection layer. Best for users with a separate streaming device (Apple TV, Roku, Shield).
 
-**4. Voice Assistant (Disable Microphone)**
-- **How:** Settings → Device Preferences → About → Google Assistant → turn off; or simply don't use the voice button on the remote
-- **What you lose:** Cannot use "Hey Google" voice search or voice remote commands. Navigation by button only.
-- **Privacy gain:** Removes microphone-based data collection. Voice data goes to Google/Amazon and is used for service improvement.
-- **Note:** This is lower priority since microphone is remote-activated, not always-on. Risk is lower than always-on microphone devices.
+**4. Voice Assistant**
+- **How:** Settings → Device Preferences → Google Assistant → off
+- **What you lose:** Voice commands via remote. Navigation by button only.
+- **Privacy gain:** Removes microphone data collection. Lower priority since mic is remote-activated, not always-on.
 
 **5. Location Services**
-- **How:** Settings → Privacy → Location → Off (varies by app)
-- **What you lose:** Weather apps require location. Some local content recommendations may fail. Live TV guides may not populate correctly.
-- **Privacy gain:** Removes GPS/location data from app ecosystem. IP geolocation (city-level) still occurs regardless.
+- **How:** Settings → Privacy → Location → Off
+- **What you lose:** Weather apps, local content recommendations.
+- **Privacy gain:** Removes GPS/location from app ecosystem. IP geolocation still occurs.
 
-### 🟢 LOW PRIORITY — Minor Gains
+### 🟢 LOW PRIORITY
 
 **6. Diagnostic Data**
-- **How:** Settings → Privacy → User Agreements → opt out of diagnostic/crash data collection
-- **What you lose:** TCL is slower to learn about bugs on your specific hardware configuration. Minimal practical impact.
-- **Privacy gain:** Small — this is low-severity technical data. Worth doing but lowest priority.
-
-**7. Interest-Based Ads (NAI/DAA Opt-Out)**
-- **How:** Visit optout.aboutads.info or networkadvertising.org/managing/opt_out.asp from a browser
-- **What you lose:** Nothing visible — ads still appear, just not from participating networks' targeted pools.
-- **Privacy gain:** Partial — only covers networks participating in the opt-out program. Does not affect TCL's first-party data collection.
-
----
-
-## What This Score Means
-
-A UDX Score of 52 means that of all the data this TV collects by default, roughly 52% of its potential privacy harm is actively realized through invasive handling, sharing, and inadequate opt-out.
-
-For context: the biggest driver is ACR — the invisible continuous monitoring of everything you watch. Combined with selling that data to brokers and the Chinese ownership flag, this TV sits in the moderate-hostile range despite having some opt-out mechanisms available. Disabling ACR and the advertising ID would meaningfully reduce real-world privacy exposure even if the UDX score remains the same.
+- **How:** Settings → Privacy → User Agreements → opt out of diagnostic data
+- **What you lose:** Negligible.
+- **Privacy gain:** Small. Worth doing but lowest priority.
 
 ---
 
 ## Optional Features (Not Scored — Opt-In)
 
-- **Precise GPS location** — enabling location for specific apps
-- **TCL Health features** — if connected to TCL Health ecosystem
-- **Smart Home integration** — TCL Home App device graph (if enrolled)
-- **Social login** — Facebook/Google social auth to TCL Channel
+- Precise GPS location
+- TCL Health features
+- Smart Home / TCL Home App device graph
+- Social login (Facebook/Google to TCL Channel)
 
 ---
 
 ## Sources
 
 - Privacy Policy: https://www.tcl.com/global/en/privacy-notice (effective 2025-07-18)
-- TCL Channel policy (older version): https://tcl-roku.s3.us-west-1.amazonaws.com/webpage/TCL%20Global%20Privacy%20Notice%20&%20Terms%20and%20Condition%20of%20Use.html
-- Texas AG Complaint (primary source): https://www.texasattorneygeneral.gov/sites/default/files/images/press/TCL%20TV%20Petition%20Filed.pdf
-- Texas AG lawsuits December 2025 coverage: https://www.techradar.com/televisions/your-tv-is-a-mass-surveillance-system-says-texas
-- IAPP ACR enforcement analysis February 2026: https://iapp.org/news/a/automated-content-recognition-technology-takes-privacy-enforcement-spotlight
-- Consumer Reports smart TV privacy guide (2025 TCL sets): https://www.consumerreports.org/electronics/privacy/how-to-turn-off-smart-tv-snooping-features-a4840102036/
+- Texas AG Complaint: https://www.texasattorneygeneral.gov/sites/default/files/images/press/TCL%20TV%20Petition%20Filed.pdf
+- Texas AG lawsuit coverage: https://www.techradar.com/televisions/your-tv-is-a-mass-surveillance-system-says-texas
+- IAPP ACR enforcement analysis: https://iapp.org/news/a/automated-content-recognition-technology-takes-privacy-enforcement-spotlight
+- Consumer Reports 2025 TCL setup guide: https://www.consumerreports.org/electronics/privacy/how-to-turn-off-smart-tv-snooping-features-a4840102036/
 - Hardware specs: https://tcl.com/us/en/products/home-theater/q77k-class/65-q77k-series-4k-uhd-hdr-qled-smart-google-tv-65q77k
-- FlatpanelsHD ACR lawsuit coverage January 2026: https://www.flatpanelshd.com/news.php?subaction=showfull&id=1768911145
